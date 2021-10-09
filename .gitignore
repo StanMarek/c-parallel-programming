@@ -1,0 +1,8 @@
+# Ignore compiled output
+*.o
+
+# Ignore vscode settings
+.vscode/
+
+# Ignore executable programs
+moj_program
