@@ -8,7 +8,7 @@ LOADER = gcc
 # wersja do debugowania
 OPT = -g -DDEBUG
 # wersja zoptymalizowana do mierzenia czasu
-# OPT = -O3
+#OPT = -O3
 
 # pliki naglowkowe
 INC = -I../pomiar_czasu
@@ -32,5 +32,11 @@ clone: clone.o
 clone.o: clone.c ../pomiar_czasu/pomiar_czasu.h
 	$(CCOMP) -c $(OPT) clone.c $(INC) 
 
+program.o: program.c
+	$(CCOMP) -c $(OPT) program.c
+
+program: program.o
+	$(LOADER) $(OPT) program.o -o program
+
 clean:
-	rm -f *.o
+	rm -f *.o fork clone

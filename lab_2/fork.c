@@ -11,7 +11,7 @@ int main(){
   int pid, wynik, i;
   
   inicjuj_czas();
-  for(i=0;i<1000;i++){
+  for(i=0;i<100;i++){
     
     pid = fork(); 			
     
