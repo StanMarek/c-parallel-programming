@@ -12,13 +12,9 @@ int main(){
   
   inicjuj_czas();
   for(i=0;i<100;i++){
-    
     pid = fork(); 			
-    
     if(pid==0){ 			
-      
       zmienna_globalna++;
-      
       wynik=execv("./program",NULL); 
       if(wynik==-1) 
           printf("Proces potomny nie wykonal programu\n");
@@ -26,9 +22,7 @@ int main(){
       exit(0);
       
     } else {					
-      
       wait(NULL);
-      
     }
   }
   drukuj_czas();

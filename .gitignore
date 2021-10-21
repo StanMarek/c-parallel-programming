@@ -1,8 +1,11 @@
 # Ignore compiled output
 *.o
+*.a
 
 # Ignore vscode settings
 .vscode/
 
 # Ignore executable programs
 moj_program
+fork
+clone

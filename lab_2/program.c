@@ -12,29 +12,18 @@
 #define ITER 100000
 int global = 0;
 
-struct DANE{
+typedef struct {
   int index;
-  char imie[10];
-  char nazwisko[10];
-};
-
+  char *imie;
+  char *nazwisko;
+} Dane;
 
 void funkcja( void* argument )
 {
-  int arg;
-  arg = *((int*)argument);
+  Dane arg;
+  arg = *((Dane*)argument);
 
-  for(int i = 0; i < ITER; i++){
-    global++; 
-    arg++;
-  }
-
-  // printf("Zmienna globalna: %d\n", global);
-  // printf("Zmienna lokalna: %d\n", arg);
-  struct DANE dane = {403515, "STANISLAW", "MAREK"};
-
-  printf("Dane %d\n %s\n %s\n", dane.index, dane.imie, dane.nazwisko);
-
+  printf("Dane %d\n %s\n %s\n", arg.index, arg.imie, arg.nazwisko);
 }
 
 int main() {
@@ -44,21 +33,25 @@ int main() {
   void* stos1 = malloc(STOS);
   void* stos2 = malloc(STOS);
 
+  Dane dane;
+  dane.imie = "STANISLAW";
+  dane.nazwisko = "MAREK";
+  dane.index = 403515;
+
   if(stos1 == 0 || stos2 ==  0) {
     exit(1);
   }
 
   clone1 = clone(&funkcja, (void *) stos1+STOS,
-    CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_VM, &local);
+    CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_VM, &dane);
   clone2 = clone(&funkcja, (void *) stos2+STOS,
-    CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_VM, &local);
+    CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_VM, &dane);
 
   waitpid(clone1, NULL, __WCLONE);
   waitpid(clone2, NULL, __WCLONE);
 
-  // printf("Globalna po: %d\n", global);
-  // printf("Lokalna po: %d\n", local);
-
   free(stos1);
   free(stos2);
 }
+
+
