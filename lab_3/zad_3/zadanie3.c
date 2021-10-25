@@ -6,24 +6,26 @@
 int P = 3;
 
 typedef struct {
-  char imie[10];
-  char nazwisko[10];
+  char *imie;
+  char *nazwisko;
   int index;
 } Dane;
 
 void *zadanie_watku(void* arg_wsk) {
   Dane daneLok = *((Dane*)arg_wsk);
 
-
-  printf("Dane lokalne przed %d\n %s\n %s\n", daneLok.index, daneLok.imie, daneLok.nazwisko);
-  daneLok = {"s", "m", 1};
-  printf("Dane lokalne po %d\n %s\n %s\n", daneLok.index, daneLok.imie, daneLok.nazwisko);
+  printf("Dane lokalne przed:\n %d\n %s\n %s\n", daneLok.index, daneLok.imie, daneLok.nazwisko);
+  daneLok.imie = "s";
+  daneLok.nazwisko = "m";
+  daneLok.index = 0;
+  printf("Dane lokalne po\n %d\n %s\n %s\n", daneLok.index, daneLok.imie, daneLok.nazwisko);
 }
 
 int main() {
   pthread_t pthreads[P];
 
   Dane dane = {"Stanislaw", "Marek", 403515};
+  printf("Dane lokalne w main przed:\n %d\n %s\n %s\n", dane.index, dane.imie, dane.nazwisko);
 
   int identyfikatory[P];
   for(int i = 0; i < P; i++){
@@ -38,4 +40,7 @@ int main() {
   for(int i = 0; i < P; i++) {
     pthread_join(pthreads[i], NULL);
   }
+
+  printf("Dane lokalne w main po:\n %d\n %s\n %s\n", dane.index, dane.imie, dane.nazwisko);
+
 }
