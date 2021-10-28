@@ -8,7 +8,7 @@ int P = 100;
 void *zadanie_watku(void* arg_wsk) {
   int arg = *((int*)arg_wsk);
 
-  printf("Numer watku: %d\n", arg);
+  printf("Identyfikator wysłany: %d, pthread_self(): %d\n", arg, pthread_self());
 }
 
 int main() {

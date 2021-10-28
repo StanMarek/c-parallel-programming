@@ -1,6 +1,7 @@
 # Ignore compiled output
 *.o
 *.a
+*.s
 
 # Ignore vscode settings
 .vscode/
@@ -10,6 +11,8 @@ moj_program
 fork
 clone
 program
-programpthreads_detach_kill
+pthreads_detach_kill
 zadanie2
 zadanie3
+pub_sym_1
+pub_sym_2

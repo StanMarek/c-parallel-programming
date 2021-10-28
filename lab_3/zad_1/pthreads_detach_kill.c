@@ -54,7 +54,7 @@ int main() {
     printf("watek glowny: tworzenie watku potomnego nr 1\n");
 
     /*Tu wstaw kod tworzenia wÄtku z domyĹlnymi wĹasnoĹciami*/
-    pthread_create(&tid, NULL, zadanie_watku, NULL); // <- to
+    pthread_create(&tid, NULL, zadanie_watku, NULL);
 
     sleep(2); // czas na uruchomienie watku
 
@@ -62,7 +62,8 @@ int main() {
     pthread_cancel(tid);
 
     //Co nalezy zrobiÄ przed sprawdzeniem czy wÄtki siÄ skonczyĹy?
-    pthread_join(tid, &wynik); // <-tos
+    pthread_join(tid, &wynik);
+
     if (wynik == PTHREAD_CANCELED)
         printf("\twatek glowny: watek potomny zostal zabity\n");
     else
@@ -75,12 +76,13 @@ int main() {
     printf("watek glowny: tworzenie watku potomnego nr 2\n");
 
     /*Tu wstaw kod tworzenia wÄtku z domyĹlnymi wĹasnoĹciami*/
-    pthread_create(&tid, NULL, zadanie_watku, NULL); // <- to
+    pthread_create(&tid, NULL, zadanie_watku, NULL);
 
     sleep(2); // czas na uruchomienie watku
 
     printf("\twatek glowny: odlaczenie watku potomnego\n");
-    //Instrukcja odĹÄczenia?
+
+    //Instrukcja odĹÄczenia?instrukcja 
     pthread_detach(tid);
 
     printf("\twatek glowny: wyslanie sygnalu zabicia watku odlaczonego\n");
@@ -100,9 +102,9 @@ int main() {
 
     //Inicjacja atrybutĂłw?
     pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
     //Ustawianie typu watku na odĹaczony
-
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+    
     printf("watek glowny: tworzenie odlaczonego watku potomnego nr 3\n");
     pthread_create(&tid, &attr, zadanie_watku, NULL);
 
