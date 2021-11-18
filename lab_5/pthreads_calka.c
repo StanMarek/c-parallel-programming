@@ -141,45 +141,35 @@ double calka_zrownoleglenie_petli(double a, double b, double dx, int N){
 }
 
 void* calka_fragment_petli_w(void* arg_wsk){
-
   int my_id = *( (int *) arg_wsk ); 
-  
-
-  double a, b, dx; // skąd pobrać dane a, b, dx, N, l_w ? 
-  int N, l_w;      // wariant 1 - globalne
-
-  // a = a_global; // itd. itp. - wartości globalne nadaje calka_zrownoleglenie_petli
+  double a, b, dx; 
+  int N, l_w;      
   a = a_global;
   b = b_global;
   dx = dx_global;
   N = N_global;
   l_w = l_w_global;
-
+  int el_na_watek = ceil((float) N / l_w_global);
+  //dekompozycja cykliczna
   int my_start = my_id; 
   int my_end = N;
-  int my_stride = l_w; ///////////////////
-  // something else ?
-
+  int my_stride = l_w;
+  // dekompozycja blokowa
+  int my_start = el_na_watek * my_id;
+  int my_end = el_na_watek * (my_id + 1);
+  int my_stride = 1;
   printf("\nWątek %d\n", my_id);
   printf("my_start %d, my_end %d, my_stride %d\n", 
-	 my_start, my_end, my_stride);
-
-
+	  my_start, my_end, my_stride);
   int i;
   double calka = 0.0;
   for(i=my_start; i<my_end; i+=my_stride){
-
     double x1 = a + i*dx;
     calka += 0.5*dx*(funkcja(x1)+funkcja(x1+dx));
-    //printf("i %d, x1 %lf, funkcja(x1) %lf, całka = %.15lf\n", 
-    //	   i, x1, funkcja(x1), calka);
-
   }
-
   pthread_mutex_lock(&muteks);
   calka_global += calka;
   pthread_mutex_unlock(&muteks);
-
 }
 
 void* calka_podobszar_w(void* arg_wsk);

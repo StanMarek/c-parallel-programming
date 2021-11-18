@@ -5,7 +5,7 @@
 
 #include"pomiar_czasu.h"
 
-#define ROZMIAR 1000
+#define ROZMIAR 100000000
 #define LICZBA_W 4 // lepiej: stała - LICZBA_W_MAX i parametr p - liczba wątków 
 
 pthread_mutex_t muteks; 
@@ -47,11 +47,10 @@ int main( int argc, char *argv[] ){
   t1 = czas_zegara();
 
   suma =0;
+  
   for(i=0; i<LICZBA_W; i++ ) 
     pthread_create( &watki[i], NULL, suma_w, (void *) &indeksy[i] );
-  // code below - synchronization error !!!
-    // pthread_create( &watki[i], NULL, suma_w, (void *) &i ); 
-
+  
   for(i=0; i<LICZBA_W; i++ ) pthread_join( watki[i], NULL );
 
   t1 = czas_zegara() - t1;
@@ -100,24 +99,17 @@ int main( int argc, char *argv[] ){
 }
 
 void *suma_w( void *arg_wsk){
-
   int i, j, moj_id;
-
   double moja_suma=0;
-
   moj_id = *( (int *) arg_wsk ); 
-
   j=ceil( (float)ROZMIAR/LICZBA_W );
   for( i = j*moj_id; i < j*(moj_id+1); i++){ 
     moja_suma += tab[i]; 
   }
-
   pthread_mutex_lock( &muteks );
   suma += moja_suma;
   pthread_mutex_unlock( &muteks );
-
   pthread_exit( NULL );
-
 }
 
 void *suma_w_no_mutex( void *arg_wsk){
