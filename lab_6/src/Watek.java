@@ -1,13 +1,16 @@
 public class Watek extends Thread{
-
-    private int obserwuj;
-    private char obserwujChar;
+    private int id;
     private Obraz obraz;
+    private int nThreads;
 
-    public Watek(int obserwuj, Obraz obraz) {
-        this.obserwuj = obserwuj;
+    public Watek(int id, Obraz obraz, int n) {
+        this.id = id;
         this.obraz = obraz;
-        this.obserwujChar = (char) obserwuj;
-        System.out.println("obserwuje char: " + this.obserwujChar);
+        this.nThreads = n;
+    }
+
+    public void run() {
+        obraz.calculate_histogram_parallel_thread(id, nThreads);
+        obraz.print_histogram_parallel(id, nThreads);
     }
 }
