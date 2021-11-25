@@ -9,9 +9,7 @@ class Obraz {
     private char[] tab_symb;
     private int[] histogram;
 
-    private Object lock_histogram = new Object();
     private int[] hist_parallel;
-    private int[] hist_parallel_w4;
 
     public Obraz(int n, int m) {
 
@@ -66,13 +64,29 @@ class Obraz {
         }
     }
 
-    public void calculate_histogram_parallel(int nThreads){
-
+    public int return_number(char c){
+        int sum = 0;
+        for(int i=0;i<size_n;i++) {
+            for(int j=0;j<size_m;j++) {
+                if(tab[i][j] == c){
+                    sum++;
+                }
+            }
+        }
+        histogram[(int) c - 33] = sum;
+        return sum;
     }
+    public synchronized void pokaz_ilosc(String info, int ilosc){
+        System.out.print(info + " ");
+        for(int i = 0; i < ilosc; i++)
+            System.out.print("=");
+        System.out.print("\n");
+    }
+
+
     public void increment_histogram_char(int index) {
         this.hist_parallel[index]++;
     }
-
     public void calculate_histogram_parallel_thread(int threadId, int nThreads) {
         int start = threadId;
         int end = this.size_n;
@@ -88,6 +102,14 @@ class Obraz {
             }
         }
     }
+    public void print_histogram_parallel(int id, int n){
+        int start = id;
+        int end = this.size_n;
+        int stride = n;
+        for(int i=start;i<end;i+=stride) {
+            System.out.print(tab_symb[i]+" "+hist_parallel[i]+"\n");
+        }
+    }
 
     public void print_histogram(){
         for(int i=0;i<94;i++) {
@@ -96,62 +118,19 @@ class Obraz {
         }
     }
 
-    public void print_histogram_parallel(int id, int n){
-        int start = id;
-        int end = this.size_n;
-        int stride = n;
-        for(int i=start;i<end;i+=stride) {
-            System.out.print(tab_symb[i]+" "+hist_parallel[i]+"\n");
-            //System.out.print((char)(i+33)+" "+histogram[i]+"\n");
-        }
-    }
 
-    public char[][] getTab() {
-        return tab;
-    }
-
-    public char[] getTab_symb() {
-        return tab_symb;
-    }
 
     public void compare_histograms() {
         int error = 0;
         for(int i = 0; i < 94; i++) {
             if(histogram[i] != hist_parallel[i]) {
                 error += histogram[i] - hist_parallel[i];
-                System.out.println("Blad symbol: " + tab_symb[i] + " histogram:" + histogram[i] + " histogram_par:" + hist_parallel[i]);
+                System.out.println("Blad symbol: " + tab_symb[i] +
+                        " histogram:" + histogram[i] + " histogram_par:" + hist_parallel[i]);
             }
         }
-        System.out.println("Histogramy porownane, liczba bledow: " + error + " blad: " + (double)(100 * error/(size_m * size_n)) + "%");
+        System.out.println("Histogramy porownane, liczba bledow: " + error +
+                " blad: " + (double)(100 * error/(size_m * size_n)) + "%");
     }
 
-    public int getSizeN() {
-        return this.size_n;
-    }
-
-    public int getSizeM() {
-        return size_m;
-    }
-
-    public void calculate_histogram_parallel_w4(int charAt) {
-        int stride = 94;
-
-        for(int i = 0; i < size_n; i++) {
-            for(int j = 0; j < size_m; j++) {
-                if(tab[i][j] == tab_symb[charAt]) {
-                    increment_histogram_char(charAt - 33);
-                }
-            }
-        }
-    }
-
-    public void print_histogram_parallel_w4(int id, int obserwuj) {
-        int start = id;
-        int end = this.size_n;
-        int stride = 94;
-        for(int i=start;i<end;i+=stride) {
-            System.out.print("watek " + id + " symb:" + (tab_symb[obserwuj]+" "+hist_parallel[i]+"\n"));
-            //System.out.print((char)(i+33)+" "+histogram[i]+"\n");
-        }
-    }
 }

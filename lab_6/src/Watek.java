@@ -1,4 +1,5 @@
 public class Watek extends Thread{
+
     private int id;
     private Obraz obraz;
     private int nThreads;
@@ -9,8 +10,9 @@ public class Watek extends Thread{
         this.nThreads = n;
     }
 
-    public void run() {
+    public void start() {
         obraz.calculate_histogram_parallel_thread(id, nThreads);
         obraz.print_histogram_parallel(id, nThreads);
     }
+
 }
