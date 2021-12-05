@@ -10,7 +10,6 @@ void *funkcja_pisarza( void *);
 
 
 int main(){
-  
   int i;
   pthread_t pisarze[5], czytelnicy[10];
   int indeksy[10] = {0,1,2,3,4,5,6,7,8,9}; 
@@ -34,7 +33,7 @@ int main(){
 }
 
 void *funkcja_czytelnika( void * arg){
-  
+
   czytelnia_t* czytelnia_p = (czytelnia_t *)arg;
   
   for(;;){

@@ -24,8 +24,7 @@ int main(int argc, char *argv[])
   // but init_routine has no arguments...
   bariera_init(LICZBA_W);
 
-  for (i = 0; i < LICZBA_W; i++)
-  {
+  for (i = 0; i < LICZBA_W; i++){
     pthread_create(&watki[i], NULL, cokolwiek, (void *)&indeksy[i]);
   }
 
@@ -48,17 +47,17 @@ void *cokolwiek(void *arg)
 
   //odkomentowac - notatka
 
-  //  printf("przed bariera 2 - watek %d\n",moj_id);
+  printf("przed bariera 2 - watek %d\n",moj_id);
 
-  //bariera();
+  bariera();
 
-  //printf("przed bariera 3 - watek %d\n",moj_id);
+  printf("przed bariera 3 - watek %d\n",moj_id);
 
-  //bariera();
+  bariera();
 
-  //printf("przed bariera 4 - watek %d\n",moj_id);
+  printf("przed bariera 4 - watek %d\n",moj_id);
 
-  //bariera();
+  bariera();
 
   printf("po ostatniej barierze - watek %d\n", moj_id);
 

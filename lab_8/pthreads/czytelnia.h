@@ -5,6 +5,15 @@
 typedef struct
 {
   // <- zasoby czytelni
+  int liczba_czytelnikow;
+  int liczba_czekajacych_czytanie;
+  int liczba_pisarzy;
+  int liczba_czekajacych_pisanie;
+  
+  pthread_mutex_t czytelnia_mutex;
+  pthread_cond_t kolejka_czytelnikow;
+  pthread_cond_t kolejka_pisarzy;
+
 } czytelnia_t;
 
 /*** Deklaracje procedur interfejsu ***/
@@ -18,11 +27,3 @@ int my_write_lock_lock(czytelnia_t *czytelnia_p);
 int my_write_lock_unlock(czytelnia_t *czytelnia_p);
 
 #endif
-
-/* zasoby
-int liczba_czyt, liczba_czekajacych_na_czytanie;
-int liczba_pis, liczba_czekajacych_na_pisanie;
-pthread_mutex_t mutex_czytelnia;
-pthread_cond_t kolejka_czytelnikow;
-pthread_cond_t kolejka_pisarzy;
-*/
