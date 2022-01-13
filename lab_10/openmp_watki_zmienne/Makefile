@@ -24,7 +24,7 @@ LIB = -lm
 # openmp_watki_zmienne.o: openmp_watki_zmienne.c
 # 	$(CCOMP) -c $(OPT) openmp_watki_zmienne.c $(INC) 
 
-# zaleznosci i komendy
+# # zaleznosci i komendy
 openmp_zaleznosci: openmp_zaleznosci.o 
 	$(LOADER) $(OPT) openmp_zaleznosci.o -o openmp_zaleznosci $(LIB)
 

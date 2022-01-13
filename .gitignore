@@ -6,6 +6,11 @@
 # Ignore vscode settings
 .vscode/
 
+# Ignore intellij files
+.idea
+out/
+*.iml
+
 # Ignore executable programs
 moj_program
 fork

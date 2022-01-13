@@ -15,7 +15,8 @@ int main()
   double *D = malloc((N + 2) * sizeof(double));
   double suma;
 
-  for(i = 0; i < N; i++){
+  for (i = 0; i < N; i++)
+  {
     C[i] = 0.0;
     D[i] = 0.0;
   }
@@ -26,26 +27,9 @@ int main()
     B[i] = 1.0 - (double)i / N;
 
   double t1 = omp_get_wtime();
-  // for (i = 0; i < N; i++)
-  // {
-  //   A[i] += A[i + 2] + sin(B[i]);
-  // }
-  // t1 = omp_get_wtime() - t1;
-
-  // suma = 0.0;
-  // for (i = 0; i < N + 2; i++)
-  //   suma += A[i];
-  // printf("suma %lf, czas obliczen %lf\n", suma, t1);
-
-  // for (i = 0; i < N + 2; i++)
-  //   A[i] = (double)i / N;
-  // for (i = 0; i < N + 2; i++)
-  //   B[i] = 1.0 - (double)i / N;
-
-  // wersja rĂłwnolegĹa
-
-  for(i = 0; i < N; i++) {
-    C[i] = A[i+2] + sin(B[i]);
+  for (i = 0; i < N; i++)
+  {
+    C[i] = A[i + 2] + sin(B[i]);
   }
   t1 = omp_get_wtime() - t1;
 
@@ -57,15 +41,18 @@ int main()
   omp_set_num_threads(2);
 
   t1 = omp_get_wtime();
-  #pragma omp parallel for
-  for (i = 0; i < N + 2; i++) {
-    D[i] = A[i+2] + sin(B[i]); 
+#pragma omp parallel for
+  for (i = 0; i < N + 2; i++)
+  {
+    D[i] = A[i + 2] + sin(B[i]);
   }
   t1 = omp_get_wtime() - t1;
 
   suma = 0.0;
-  #pragma omp parallel for reduction(+: suma)
-  for(i = 0; i < N; i++) {
+#pragma omp parallel for reduction(+ \
+                                   : suma)
+  for (i = 0; i < N; i++)
+  {
     suma += D[i];
   }
   printf("suma %lf, czas obliczen rownoleglych %lf\n", suma, t1);
